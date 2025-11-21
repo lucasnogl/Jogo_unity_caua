@@ -4,12 +4,15 @@ using System.Collections.Generic;
 public class EnemyWaypointMovement : MonoBehaviour
 {
     [Header("Waypoints")]
-    public List<Transform> waypoints; // Assign your waypoint transforms in the inspector
+    public List<Transform> waypoints;
 
     [Header("Movement Settings")]
     public float moveSpeed = 3f;
     public float waypointReachedDistance = 0.1f;
     public bool loop = true;
+
+    [Header("Visual")]
+    public Transform visual; // <-- Arraste o objeto "Visual" aqui no inspector
 
     private Rigidbody2D rb;
     private int currentWaypointIndex = 0;
@@ -19,7 +22,6 @@ public class EnemyWaypointMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // Validate that we have waypoints
         if (waypoints == null || waypoints.Count == 0)
         {
             Debug.LogError("No waypoints assigned to the enemy!");
@@ -27,8 +29,25 @@ public class EnemyWaypointMovement : MonoBehaviour
             return;
         }
 
-        // Start moving towards the first waypoint
         SetTargetWaypoint(currentWaypointIndex);
+    }
+
+    void Update()
+    {
+        // FLIP DO SPRITE
+        if (rb.linearVelocity.x > 0.01f)
+        {
+            visual.localScale = new Vector3(7, 7, 7);
+        }
+        else if (rb.linearVelocity.x < -0.01f)
+        {
+            visual.localScale = new Vector3(-7, 7, 7);
+        }
+        else
+        {
+            // Parado → manter último flip (aqui escolhi virar para a esquerda)
+            visual.localScale = new Vector3(-7, 7, 7);
+        }
     }
 
     void FixedUpdate()
@@ -50,11 +69,9 @@ public class EnemyWaypointMovement : MonoBehaviour
     {
         if (waypoints.Count == 0) return;
 
-        // Update direction every frame for better path correction
         Vector2 targetPosition = waypoints[currentWaypointIndex].position;
         movementDirection = (targetPosition - (Vector2)transform.position).normalized;
 
-        // Set linear velocity towards the current waypoint
         rb.linearVelocity = movementDirection * moveSpeed;
     }
 
@@ -72,13 +89,8 @@ public class EnemyWaypointMovement : MonoBehaviour
 
     void GoToNextWaypoint()
     {
-        // Remove the stop for smoother movement
-        // rb.linearVelocity = Vector2.zero;
-
-        // Move to next waypoint
         currentWaypointIndex++;
 
-        // Handle reaching the end of waypoints
         if (currentWaypointIndex >= waypoints.Count)
         {
             if (loop)
@@ -87,14 +99,12 @@ public class EnemyWaypointMovement : MonoBehaviour
             }
             else
             {
-                // Stop moving if not looping
                 enabled = false;
                 rb.linearVelocity = Vector2.zero;
                 return;
             }
         }
 
-        // Set new target waypoint
         SetTargetWaypoint(currentWaypointIndex);
     }
 }
