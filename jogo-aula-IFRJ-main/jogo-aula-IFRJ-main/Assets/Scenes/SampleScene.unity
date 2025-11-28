@@ -792,6 +792,9 @@ MonoBehaviour:
   waypointReachedDistance: 0.1
   loop: 1
   visual: {fileID: 411527673}
+  damage: 10
+  attackCooldown: 1
+  knockbackForce: 1500
 --- !u!50 &411527671
 Rigidbody2D:
   serializedVersion: 5

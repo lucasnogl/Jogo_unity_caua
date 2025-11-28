@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class EnemyWaypointMovement : MonoBehaviour
 {
-    // --- Waypoints and Movement Settings (Do Código 1 e 2) ---
+    // --- Waypoints and Movement Settings ---
     [Header("Waypoints")]
     public List<Transform> waypoints;
 
@@ -15,7 +15,7 @@ public class EnemyWaypointMovement : MonoBehaviour
     [Header("Visual")]
     public Transform visual; // Elemento para aplicar o 'flip' visual.
 
-    // --- Combat Settings (Do Código 2) ---
+    // --- Combat Settings ---
     [Header("Combat Settings")]
     public float damage = 10f;
     public float attackCooldown = 1f;
@@ -48,9 +48,6 @@ public class EnemyWaypointMovement : MonoBehaviour
         CheckIfWaypointReached();
     }
 
-    /// <summary>
-    /// Define a direção para o próximo waypoint.
-    /// </summary>
     void SetTargetWaypoint(int index)
     {
         if (waypoints.Count == 0) return;
@@ -60,30 +57,21 @@ public class EnemyWaypointMovement : MonoBehaviour
         movementDirection = (targetPosition - (Vector2)transform.position).normalized;
     }
 
-    /// <summary>
-    /// Move o inimigo usando Rigidbody2D.
-    /// </summary>
     void MoveTowardsWaypoint()
     {
         if (waypoints.Count == 0) return;
 
         Vector2 targetPosition = waypoints[currentWaypointIndex].position;
-        // Recalcula a direção continuamente (mantém-se atualizado)
+        // Recalcula a direção continuamente
         movementDirection = (targetPosition - (Vector2)transform.position).normalized;
 
-        // Aplica a velocidade APENAS no eixo X (mantém a gravidade/movimento do eixo Y do RB)
+        // Aplica a velocidade APENAS no eixo X
         rb.linearVelocity = new Vector2(movementDirection.x * moveSpeed, rb.linearVelocity.y);
-
-        // Chamada de FlipVisual movida para GoToNextWaypoint() para o movimento,
-        // mas pode ser chamado aqui também se quiser o flip contínuo.
-        // Vamos manter o flip dentro de MoveTowardsWaypoint para reverter o visual
-        // se a direção mudar *durante* a aproximação (ex: se o alvo estiver ligeiramente acima/abaixo)
-        // FlipVisual(); 
     }
 
     /// <summary>
     /// Vira o visual do inimigo com base na direção X do movimento.
-    /// (Adota a lógica mais simples de FlipVisual do Código 2, mas sem o fator de escala `* 0.32f`)
+    /// (Lógica Invertida, como solicitado)
     /// </summary>
     void FlipVisual()
     {
@@ -92,20 +80,17 @@ public class EnemyWaypointMovement : MonoBehaviour
         // Se movendo para a direita (X positivo)
         if (movementDirection.x > 0.01f) 
         {
-            // Vira o visual para a direita (escala X positiva)
-            visual.localScale = new Vector3(Mathf.Abs(visual.localScale.x), visual.localScale.y, visual.localScale.z);
+            // Vira para a direita: Escala X negativa (inverte o sprite)
+            visual.localScale = new Vector3(-Mathf.Abs(visual.localScale.x), visual.localScale.y, visual.localScale.z); 
         }
         // Se movendo para a esquerda (X negativo)
         else if (movementDirection.x < -0.01f)
         {
-            // Vira o visual para a esquerda (escala X negativa)
-            visual.localScale = new Vector3(-Mathf.Abs(visual.localScale.x), visual.localScale.y, visual.localScale.z);
+            // Vira para a esquerda: Escala X positiva (mantém o sprite)
+            visual.localScale = new Vector3(Mathf.Abs(visual.localScale.x), visual.localScale.y, visual.localScale.z);
         }
     }
 
-    /// <summary>
-    /// Verifica se a distância para o waypoint atual é suficiente para mudar para o próximo.
-    /// </summary>
     void CheckIfWaypointReached()
     {
         if (waypoints.Count == 0) return;
@@ -114,13 +99,10 @@ public class EnemyWaypointMovement : MonoBehaviour
 
         if (distanceToWaypoint <= waypointReachedDistance)
         {
-            GoToNextWaypoint(); // Corrigido para o nome GoToNextWaypoint (o original do primeiro script)
+            GoToNextWaypoint();
         }
     }
 
-    /// <summary>
-    /// Atualiza o índice do waypoint e lida com o looping.
-    /// </summary>
     void GoToNextWaypoint()
     {
         currentWaypointIndex++;
@@ -143,7 +125,7 @@ public class EnemyWaypointMovement : MonoBehaviour
         FlipVisual(); // Chama o flip para virar o inimigo na nova direção!
     }
 
-    // --- Lógica de Combate (Do Código 2) ---
+    // --- Lógica de Combate ---
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -181,7 +163,7 @@ public class EnemyWaypointMovement : MonoBehaviour
         }
     }
     
-    // Função Jump adicionada (do Código 2)
+    // Função Jump
     public void Jump(float jumpForce)
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
