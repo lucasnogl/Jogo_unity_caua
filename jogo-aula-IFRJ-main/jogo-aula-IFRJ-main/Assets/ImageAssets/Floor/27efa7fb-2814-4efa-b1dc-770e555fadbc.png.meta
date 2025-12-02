@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: de843638eb62f774da381abc12c48a46
+guid: 57358b9e360c2f94998872cd88af2b01
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6915707004430156189
-    second: spr_tree_city_8_0
+      213: -8480360808649224507
+    second: 27efa7fb-2814-4efa-b1dc-770e555fadbc_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spr_tree_city_8_0
+      name: 27efa7fb-2814-4efa-b1dc-770e555fadbc_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1200
-        height: 600
+        width: 443
+        height: 158
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d918db921e689ff50800000000000000
-      internalID: 6915707004430156189
+      spriteID: 5ce815186c4bf4a80800000000000000
+      internalID: -8480360808649224507
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      spr_tree_city_8_0: 6915707004430156189
+      27efa7fb-2814-4efa-b1dc-770e555fadbc_0: -8480360808649224507
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
